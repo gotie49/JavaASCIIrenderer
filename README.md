@@ -21,7 +21,7 @@ https://www.youtube.com/watch?v=gg40RWiaHRY
 - Quantize the Luminance for every Pixel to 0...0.1...1
   - Math.Floor(L*10)/10
 - Assign the Luminance of the Pixel to a Character out of the ASCII MAP: .;coPBO?@■
-  
+- Display ASCII String in the Console
 
 
 
