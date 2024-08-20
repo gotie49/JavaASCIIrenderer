@@ -1,4 +1,4 @@
-# ASCIIshader
+# JavaASCIIRenderer
 
 
 Links:
@@ -8,7 +8,7 @@ https://www.youtube.com/watch?v=gg40RWiaHRY
 
 - Console Application (CLI)
 - Reads .png or .jpeg Image Files (max size to be defined e.g. 500x500px)
-- Rendered Image results in a 500x500 character ASCII String
+- Rendered Image results in a 100x100 character ASCII String
 - returns ASCII String in the console
   
 ***Process***
@@ -16,7 +16,7 @@ https://www.youtube.com/watch?v=gg40RWiaHRY
   - get pixel positions and saturation/luminance information of the image
   - check for type
 - Downscale Image by a Factor of 8
-  - Divide Resulution by 8 to achieve that
+  - Divide Resolution by 8 to achieve that
 - Desaturate Image
 - Quantize the Luminance for every Pixel to 0...0.1...1
   - Math.Floor(L*10)/10
