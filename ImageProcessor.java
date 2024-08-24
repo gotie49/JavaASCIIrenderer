@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -5,14 +6,13 @@ import java.io.IOException;
 
 public class ImageProcessor {
 
-    private String fileName = "xdd.png";
-    private String fileType = "png";
-    public ImageProcessor(String fileName, String fileType){
-        this.fileName = fileName;
-        this.fileType = fileType;
+
+    public static BufferedImage processImage(String fileName, int scale){
+        BufferedImage bI = readImage(fileName);
+        return scaleImage(bI,scale);
     }
-//TODO: -downscaled version of image (Factor = x)
-    public BufferedImage readImage(String fileName) {
+
+    public static BufferedImage readImage(String fileName) {
         try {
             return ImageIO.read(new File(fileName));
         } catch (IOException e) {
@@ -21,7 +21,29 @@ public class ImageProcessor {
         return null;
     }
 
-    public float [][] getLuminance(BufferedImage bufferedImage){
+    public static BufferedImage scaleImage(BufferedImage bufferedImage, int scale){
+        int width = bufferedImage.getWidth()/scale;
+        int height = bufferedImage.getHeight()/scale;
+        BufferedImage scaledImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D graphics2D = scaledImage.createGraphics();
+        graphics2D.drawImage(bufferedImage,0,0,width,height,null);
+        graphics2D.dispose();
+
+        //save the img to test for debugging reasons
+        try {
+            ImageIO.write(scaledImage, "png",new File("test/scaled.png"));
+
+        }
+        catch (IOException e){
+            System.out.println("some exception");
+        }
+
+        return scaledImage;
+    }
+
+
+    public static float [][] getLuminance(BufferedImage bufferedImage){
         int[][] colorMap= new int[bufferedImage.getWidth()][bufferedImage.getHeight()];
         float[][] luminanceMap= new float[bufferedImage.getWidth()][bufferedImage.getHeight()];
         int red;
