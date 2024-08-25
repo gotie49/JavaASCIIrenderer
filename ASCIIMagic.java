@@ -1,7 +1,10 @@
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 public class ASCIIMagic {
     private static final String ASCIILegend = ".;coPBO?@■";
+    private static final String ASCIIAngleLegend = "_/|\\_\\_/|";
 
     public static void printASCIIMap(char[][] asciiMap){
         for (int i = 0; i < asciiMap[0].length; i++) {
@@ -26,6 +29,20 @@ public class ASCIIMagic {
         }
         return asciiMap;
     }
+    public static char[][]getASCIISobel(double[][]sobelGradient){
+        int sobelIndex;
+        int height = sobelGradient.length;
+        int width = sobelGradient[0].length;
+        char[][]asciiSobelMap = new char[height+1][width+1];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                sobelIndex = (int)(sobelGradient[i][j]);
+                asciiSobelMap[i][j]= ASCIIAngleLegend.charAt(Math.min(sobelIndex,8));
+            }
+        }
+        return asciiSobelMap;
+
+    }
 
     public static float [][] getLuminance(BufferedImage bufferedImage){
         int[][] colorMap= new int[bufferedImage.getWidth()][bufferedImage.getHeight()];
@@ -45,5 +62,29 @@ public class ASCIIMagic {
         }
         return luminanceMap;
     }
+    public static double[][] getSobelGradient(BufferedImage bufferedImage){
+        int width = bufferedImage.getWidth();
+        int height = bufferedImage.getHeight();
+        int[][] sobelX = {{ -1, 0, 1 }, { -2, 0, 2 }, { -1, 0, 1 }};
+        int[][] sobelY = {{ -1, -2, -1 }, { 0,  0,  0 }, { 1,  2,  1 }};
+        double[][]sobelGradient = new double[width][height];
 
+        for (int y = 1; y < height -1; y++) {
+            for (int x = 1; x < width -1; x++) {
+                int pixelX = 0;
+                int pixelY = 0;
+
+                for (int i = -1; i <= 1; i++) {
+                    for (int j = -1; j <= 1; j++) {
+                        int gray = new Color(bufferedImage.getRGB(x + i, y + j)).getRed();
+                        pixelX += gray * sobelX[i + 1][j + 1];
+                        pixelY += gray * sobelY[i + 1][j + 1];
+                    }
+                }
+                sobelGradient[x][y] = Math.floor(((Math.atan2(pixelY, pixelX)/Math.PI)*0.5+0.5)*10);
+            }
+        }
+        System.out.println(Arrays.deepToString(sobelGradient));
+        return sobelGradient;
+    }
 }

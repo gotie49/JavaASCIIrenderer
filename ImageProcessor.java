@@ -3,6 +3,7 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class ImageProcessor {
 
@@ -26,6 +27,14 @@ public class ImageProcessor {
         return null;
     }
 
+    public static BufferedImage combineImages(BufferedImage bufferedImage1, BufferedImage bufferedImage2){
+        BufferedImage combinedImage = new BufferedImage(bufferedImage1.getWidth(),bufferedImage1.getHeight(),BufferedImage.TYPE_INT_ARGB);
+        Graphics2D graphics2D = combinedImage.createGraphics();
+        graphics2D.drawImage(bufferedImage1,0,0,null);
+        graphics2D.drawImage(bufferedImage2,0,0,null);
+        graphics2D.dispose();
+        return combinedImage;
+    }
     public static BufferedImage scaleImage(BufferedImage bufferedImage, int scale){
         int width = bufferedImage.getWidth()/scale;
         int height = bufferedImage.getHeight()/scale;
@@ -44,7 +53,7 @@ public class ImageProcessor {
         int height = bufferedImage.getHeight();
         int[][] sobelX = {{ -1, 0, 1 }, { -2, 0, 2 }, { -1, 0, 1 }};
         int[][] sobelY = {{ -1, -2, -1 }, { 0,  0,  0 }, { 1,  2,  1 }};
-        BufferedImage sobelImage = new BufferedImage(width,height,BufferedImage.TYPE_BYTE_GRAY);
+        BufferedImage sobelImage = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
 
         /* you get away with getRed because image is already in grayscale before going through sobel
         this is just matrix multiplication:
@@ -53,6 +62,8 @@ public class ImageProcessor {
             for (int x = 1; x < width -1; x++) {
                 int pixelX = 0;
                 int pixelY = 0;
+                int white = 0xFFFFFFFF;
+                Color transparent = new Color(0.0f,0.0f,0.0f,0.0f);
 
                 for (int i = -1; i <= 1; i++) {
                     for (int j = -1; j <= 1; j++) {
@@ -62,19 +73,23 @@ public class ImageProcessor {
                     }
                 }
 
-                //TODO: need the direction of the vector
                 int magnitude = (int) Math.sqrt(pixelX * pixelX + pixelY * pixelY);
                 if(magnitude > threshold){
-                    int white = 0xFFFFFFFF;
+
                     sobelImage.setRGB(x,y,white);
                 }
+                //set other pixels transparent, so that it can be combined easily
                 else{
-                    sobelImage.setRGB(x,y,0);
+                    sobelImage.setRGB(x,y,transparent.getRGB());
                 }
+
+
             }
         }
         return sobelImage;
     }
+
+
 
     public static BufferedImage applyGrayscale(BufferedImage bufferedImage){
         BufferedImage grayImage = new BufferedImage(bufferedImage.getWidth(), bufferedImage.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
