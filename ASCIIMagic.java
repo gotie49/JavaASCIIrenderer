@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class ASCIIMagic {
     private static final String ASCIILegend = ".;coPBO?@■";
-    private static final String ASCIIAngleLegend = "_/|\\_\\_/|";
+    private static final String ASCIIAngleLegend = "|-/\\";
 
     public static void printASCIIMap(char[][] asciiMap){
         for (int i = 0; i < asciiMap[0].length; i++) {
@@ -37,7 +37,7 @@ public class ASCIIMagic {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 sobelIndex = (int)(sobelGradient[i][j]);
-                asciiSobelMap[i][j]= ASCIIAngleLegend.charAt(Math.min(sobelIndex,8));
+                asciiSobelMap[i][j]= ASCIIAngleLegend.charAt(Math.min(sobelIndex,3));
             }
         }
         return asciiSobelMap;

@@ -73,7 +73,7 @@ public class ImageProcessor {
                     }
                 }
 
-                int magnitude = (int) Math.sqrt(pixelX * pixelX + pixelY * pixelY);
+                /*int magnitude = (int) Math.sqrt(pixelX * pixelX + pixelY * pixelY);
                 if(magnitude > threshold){
 
                     sobelImage.setRGB(x,y,white);
@@ -81,9 +81,17 @@ public class ImageProcessor {
                 //set other pixels transparent, so that it can be combined easily
                 else{
                     sobelImage.setRGB(x,y,transparent.getRGB());
+                }*/
+
+                double mappedAngle = ((Math.atan2(x,y)/Math.PI)*0.5)+0.5;
+                int grayValue = (int)(mappedAngle* 255);
+                if(grayValue>threshold) {
+                    Color color = new Color(grayValue, grayValue, grayValue);
+                    sobelImage.setRGB(x, y, color.getRGB());
                 }
-
-
+                else {
+                    sobelImage.setRGB(x,y,transparent.getRGB());
+                }
             }
         }
         return sobelImage;

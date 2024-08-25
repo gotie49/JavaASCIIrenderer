@@ -15,7 +15,7 @@ public class Main {
         ImageProcessor.saveImage(sobelledImage300,"sobel300");
         BufferedImage sobelledImage200 = ImageProcessor.applySobel(grayImage,200);
         ImageProcessor.saveImage(sobelledImage200,"sobel200");
-        BufferedImage sobelledImage100 = ImageProcessor.applySobel(grayImage,80);
+        BufferedImage sobelledImage100 = ImageProcessor.applySobel(grayImage,150);
         ImageProcessor.saveImage(sobelledImage100,"sobel100");
         BufferedImage combinedImage = ImageProcessor.combineImages(grayImage,sobelledImage100);
         ImageProcessor.saveImage(combinedImage,"combined");
@@ -23,6 +23,8 @@ public class Main {
         /*TODO:calculate direction of gradient,render ascii based on direction
         Calculate a color based on the angle and color multiples in the same color, eliminate area that is not the circle itself
         only after that try mapping ascii based on the colors*/
+        //FATAL flaw is at the moment that i only use the direction but indeed i need the magnitude and the direction,
+        // the magnitude is needed to elimnate all the other useless results with the thresholds i am FUCKING STUPID AND I HATE EVERYTHING MAAAN
 
         float[][] luminanceMap = ASCIIMagic.getLuminance(combinedImage);
         char[][] asciiMap = ASCIIMagic.getASCIIMap(luminanceMap);
