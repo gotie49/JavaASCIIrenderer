@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 public class Main {
     public static void main(String[] args) {
 
-        BufferedImage image = ImageProcessor.readImage("test/xdd.png");
+        BufferedImage image = ImageProcessor.readImage("test/circle-256.png");
 
         //testing functions
         BufferedImage scaledImage = ImageProcessor.scaleImage(image,1);

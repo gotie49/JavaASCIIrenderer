@@ -78,7 +78,7 @@ public class ImageProcessor {
                     if(!isAngle){
                         sobelImage.setRGB(x,y,white);
                     }else{
-                    double normalizedAngle = ((Math.atan2(pixelX, pixelX) / Math.PI) * 0.5) + 0.5;
+                    double normalizedAngle = ((Math.atan2(pixelY, pixelX) / Math.PI) * 0.5) + 0.5;
                     Color actualColor;
                     double duplicatedAngle;
                     if(normalizedAngle < 0.5){
