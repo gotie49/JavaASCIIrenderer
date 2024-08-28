@@ -40,7 +40,10 @@ public class ASCIIMagic {
                 sobelIndex = (int) (sobelGradient[i][j]);
                 if (sobelGradient[i][j] == 0) {
                     asciiSobelMap[i][j] = ' ';
-                } else {
+                }else if(sobelGradient[i][j] == 1){
+                   asciiSobelMap[i][j] = '_';
+                }
+                else {
                     asciiSobelMap[i][j] = ASCIIAngleLegend.charAt(Math.min(sobelIndex, 3));
                 }
             }

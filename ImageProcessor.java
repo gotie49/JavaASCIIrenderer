@@ -48,7 +48,7 @@ public class ImageProcessor {
     }
 
     //needs to be applied to grayscale
-    public static BufferedImage applySobel(BufferedImage bufferedImage, int threshold) {
+    public static BufferedImage applySobel(BufferedImage bufferedImage, int threshold, boolean isAngle) {
         int width = bufferedImage.getWidth();
         int height = bufferedImage.getHeight();
         int[][] sobelX = {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}};
@@ -75,11 +75,21 @@ public class ImageProcessor {
 
                 int magnitude = (int) Math.sqrt(pixelX * pixelX + pixelY * pixelY);
                 if (magnitude > threshold) {
-                    double mappedAngle = ((Math.atan2(x, y) / Math.PI) * 0.5) + 0.5;
-                    int grayValue = (int) (mappedAngle * 255);
-                    Color color = new Color(grayValue, grayValue, grayValue);
-                    sobelImage.setRGB(x, y, color.getRGB());
-                }
+                    if(!isAngle){
+                        sobelImage.setRGB(x,y,white);
+                    }else{
+                    double normalizedAngle = ((Math.atan2(pixelX, pixelX) / Math.PI) * 0.5) + 0.5;
+                    Color actualColor;
+                    double duplicatedAngle;
+                    if(normalizedAngle < 0.5){
+                        duplicatedAngle = normalizedAngle / 0.5;
+                    }
+                    else {
+                        duplicatedAngle = (normalizedAngle - 0.5) / 0.5;
+                    }
+                    actualColor = Color.getHSBColor((float)duplicatedAngle,1.0f,1.0f);
+                    sobelImage.setRGB(x, y, actualColor.getRGB());
+                }}
                 //set other pixels transparent, so that it can be combined easily
                 else {
                     sobelImage.setRGB(x, y, transparent.getRGB());
