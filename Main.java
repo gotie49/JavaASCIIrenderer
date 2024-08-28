@@ -7,7 +7,7 @@ public class Main {
         BufferedImage image = ImageProcessor.readImage("test/circle.png");
 
         //testing functions
-        BufferedImage scaledImage = ImageProcessor.scaleImage(image,4);
+        BufferedImage scaledImage = ImageProcessor.scaleImage(image,2);
         ImageProcessor.saveImage(scaledImage,"scaled");
         BufferedImage grayImage = ImageProcessor.applyGrayscale(scaledImage);
         ImageProcessor.saveImage(grayImage,"gray");
@@ -15,7 +15,7 @@ public class Main {
         ImageProcessor.saveImage(sobelledImage300,"sobel300");
         BufferedImage sobelledImage200 = ImageProcessor.applySobel(grayImage,200);
         ImageProcessor.saveImage(sobelledImage200,"sobel200");
-        BufferedImage sobelledImage100 = ImageProcessor.applySobel(grayImage,150);
+        BufferedImage sobelledImage100 = ImageProcessor.applySobel(grayImage,120);
         ImageProcessor.saveImage(sobelledImage100,"sobel100");
         BufferedImage combinedImage = ImageProcessor.combineImages(grayImage,sobelledImage100);
         ImageProcessor.saveImage(combinedImage,"combined");
@@ -29,7 +29,7 @@ public class Main {
         float[][] luminanceMap = ASCIIMagic.getLuminance(combinedImage);
         char[][] asciiMap = ASCIIMagic.getASCIIMap(luminanceMap);
 
-        double[][] sobelGradient = ASCIIMagic.getSobelGradient(scaledImage);
+        double[][] sobelGradient = ASCIIMagic.getSobelGradient(scaledImage,120);
         char[][] asciiSobel = ASCIIMagic.getASCIISobel(sobelGradient);
 
         //ASCIIMagic.printASCIIMap(asciiMap);
