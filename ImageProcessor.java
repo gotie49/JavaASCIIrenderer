@@ -48,7 +48,7 @@ public class ImageProcessor {
     }
 
     //needs to be applied to grayscale
-    public static BufferedImage applySobel(BufferedImage bufferedImage, int threshold, boolean isAngle) {
+    public static BufferedImage applySobel(BufferedImage bufferedImage, double threshold, boolean isAngle) {
         int width = bufferedImage.getWidth();
         int height = bufferedImage.getHeight();
         int[][] sobelX = {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}};
@@ -73,21 +73,13 @@ public class ImageProcessor {
                     }
                 }
 
-                int magnitude = (int) Math.sqrt(pixelX * pixelX + pixelY * pixelY);
+                double magnitude = Math.sqrt(pixelX * pixelX + pixelY * pixelY);
                 if (magnitude > threshold) {
                     if(!isAngle){
                         sobelImage.setRGB(x,y,white);
                     }else{
-                    double normalizedAngle = ((Math.atan2(pixelY, pixelX) / Math.PI) * 0.5) + 0.5;
-                    Color actualColor;
-                    double duplicatedAngle;
-                    if(normalizedAngle < 0.5){
-                        duplicatedAngle = normalizedAngle / 0.5;
-                    }
-                    else {
-                        duplicatedAngle = (normalizedAngle - 0.5) / 0.5;
-                    }
-                    actualColor = Color.getHSBColor((float)duplicatedAngle,1.0f,1.0f);
+                    double duplicatedAngle = getAngle(pixelX,pixelY);
+                    Color actualColor = Color.getHSBColor((float)duplicatedAngle,1.0f,1.0f);
                     sobelImage.setRGB(x, y, actualColor.getRGB());
                 }}
                 //set other pixels transparent, so that it can be combined easily
@@ -97,6 +89,17 @@ public class ImageProcessor {
             }
         }
         return sobelImage;
+    }
+    public static double getAngle(int PixelX, int PixelY){
+        double normalizedAngle = ((Math.atan2(PixelY, PixelX) / Math.PI) * 0.5) + 0.5;
+        double duplicatedAngle;
+        if(normalizedAngle < 0.5){
+            duplicatedAngle = normalizedAngle / 0.5;
+        }
+        else {
+            duplicatedAngle = (normalizedAngle - 0.5) / 0.5;
+        }
+        return duplicatedAngle;
     }
 
     public static BufferedImage applyGrayscale(BufferedImage bufferedImage) {
