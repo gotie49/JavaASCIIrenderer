@@ -1,6 +1,7 @@
+package src.ascii;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
 
 public class ASCIIMagic {
     private static final String ASCIILegend = ".;coPBO?@■";

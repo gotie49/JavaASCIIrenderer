@@ -1,4 +1,8 @@
-import java.awt.font.ImageGraphicAttribute;
+package src;
+
+import src.ascii.ASCIIMagic;
+import src.image.ImageProcessor;
+
 import java.awt.image.BufferedImage;
 
 public class Main {
@@ -28,7 +32,7 @@ public class Main {
         double[][] sobelGradient = ASCIIMagic.getSobelGradient(scaledImage,120);
         char[][] asciiSobel = ASCIIMagic.getASCIISobel(sobelGradient);
 
-        //ASCIIMagic.printASCIIMap(asciiMap);
-        //ASCIIMagic.printASCIIMap(asciiSobel);
+        //src.ascii.ASCIIMagic.printASCIIMap(asciiMap);
+        //src.ascii.ASCIIMagic.printASCIIMap(asciiSobel);
     }
 }
