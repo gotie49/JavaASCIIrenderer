@@ -12,17 +12,6 @@ https://www.youtube.com/watch?v=oIKMCwj9lK8
 - Rendered Image results in a 100x100 character ASCII String
 - returns ASCII String in the console
   
-***Process***
-- Image Data Reader 
-  - get pixel positions and saturation/luminance information of the image
-  - check for type
-- Downscale Image by a Factor of 8
-  - Divide Resolution by 8 to achieve that
-- Desaturate Image
-- Quantize the Luminance for every Pixel to 0...0.1...1
-  - Math.Floor(L*10)/10
-- Assign the Luminance of the Pixel to a Character out of the ASCII MAP: .;coPBO?@■
-- Display ASCII String in the Console
 
 
 
